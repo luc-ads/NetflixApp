@@ -16,6 +16,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintDimensionRatio="3:4"
-        android:src="@drawable/movie"/>
+        android:src="@drawable/item_recycler_background"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
