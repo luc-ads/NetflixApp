@@ -1,5 +1,6 @@
 package co.tiagoaguiar.netflixremake
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.tiagoaguiar.netflixremake.adapters.CategoryAdapter
 import co.tiagoaguiar.netflixremake.databinding.ActivityMainBinding
+import co.tiagoaguiar.netflixremake.interfaces.OnClickForAdapter
 import co.tiagoaguiar.netflixremake.model.Category
 import co.tiagoaguiar.netflixremake.model.Movie
 
@@ -43,6 +45,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.rvMain.layoutManager = LinearLayoutManager(this)
-        binding.rvMain.adapter = CategoryAdapter(categories)
+        binding.rvMain.adapter = CategoryAdapter(categories, object: OnClickForAdapter {
+            override fun onClick(itemPosition: Int) {
+                startActivity(Intent(this@MainActivity, MovieActivity::class.java))
+            }
+        })
     }
 }

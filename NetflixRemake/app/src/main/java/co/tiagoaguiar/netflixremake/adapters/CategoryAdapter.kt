@@ -2,16 +2,17 @@ package co.tiagoaguiar.netflixremake.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import co.tiagoaguiar.netflixremake.R
 import co.tiagoaguiar.netflixremake.databinding.CategoryItemBinding
+import co.tiagoaguiar.netflixremake.interfaces.OnClickForAdapter
 import co.tiagoaguiar.netflixremake.model.Category
-import co.tiagoaguiar.netflixremake.model.Movie
 
 class CategoryAdapter(
-    private val listMovie: List<Category>
+    private val listMovie: List<Category>,
+    private val onClickForAdapter: OnClickForAdapter
 ): RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -24,7 +25,7 @@ class CategoryAdapter(
     }
 
     override fun onBindViewHolder(holder: CategoryAdapter.CategoryViewHolder, position: Int) {
-        holder.bind(listMovie[position])
+        holder.bind(listMovie[position], position)
     }
 
     override fun getItemCount(): Int = listMovie.size
@@ -34,10 +35,10 @@ class CategoryAdapter(
         private val textCategoryName: TextView = itemBinding.txtTitle
         private val rvMovies: RecyclerView = itemBinding.rvMovies
 
-        fun bind(itemCategory: Category) {
+        fun bind(itemCategory: Category, position: Int) {
             textCategoryName.text = itemCategory.name
             rvMovies.layoutManager = LinearLayoutManager(itemView.context, RecyclerView.HORIZONTAL, false)
-            rvMovies.adapter = MovieAdapter(itemCategory.movies)
+            rvMovies.adapter = MovieAdapter(itemCategory.movies, R.layout.movie_item, onClickForAdapter)
         }
     }
 }
