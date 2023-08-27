@@ -32,6 +32,6 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-//        CategoryTask().execute("https://api.tiagoaguiar.co/netflixapp/home?apiKey=4a8c46ef-d5de-41e3-89ad-4e427c7fff3c")
+        CategoryTask().execute("https://api.tiagoaguiar.co/netflixapp/home?apiKey=4a8c46ef-d5de-41e3-89ad-4e427c7fff3c")
     }
 }
