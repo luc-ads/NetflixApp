@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.tiagoaguiar.netflixremake.adapters.CategoryAdapter
 import co.tiagoaguiar.netflixremake.databinding.ActivityMainBinding
+import co.tiagoaguiar.netflixremake.databinding.CategoryItemBinding
 import co.tiagoaguiar.netflixremake.interfaces.OnClickForAdapter
 import co.tiagoaguiar.netflixremake.model.Category
 import co.tiagoaguiar.netflixremake.model.Movie
+import co.tiagoaguiar.netflixremake.util.CategoryTask
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,32 +25,13 @@ class MainActivity : AppCompatActivity() {
         val movies = mutableListOf<Movie>()
         val categories = mutableListOf<Category>()
 
-        for (j in 0 until 5) {
-            for (i in 0 until 10) {
-                if (i % 2 == 0) {
-                    movies.add(
-                        Movie(R.drawable.movie)
-                    )
-                } else {
-                    movies.add(
-                        Movie(R.drawable.movie_4)
-                    )
-                }
-            }
-            categories.add(
-                Category("Categoria $j", movies)
-            )
-        }
-
-        categories.forEach {
-            Log.i("Teste de for", it.toString())
-        }
-
         binding.rvMain.layoutManager = LinearLayoutManager(this)
         binding.rvMain.adapter = CategoryAdapter(categories, object: OnClickForAdapter {
             override fun onClick(itemPosition: Int) {
                 startActivity(Intent(this@MainActivity, MovieActivity::class.java))
             }
         })
+
+//        CategoryTask().execute("https://api.tiagoaguiar.co/netflixapp/home?apiKey=4a8c46ef-d5de-41e3-89ad-4e427c7fff3c")
     }
 }

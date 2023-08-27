@@ -38,18 +38,6 @@ class MovieActivity : AppCompatActivity() {
         binding.movieTxtDesc.text = "Essa é a descrição do filme Batman Begins"
         binding.movieTxtCast.text = getString(R.string.cast, "Ator A, Ator B, Ator C, Ator D, Ator E")
 
-        for (i in 0 until 12) {
-            if (i % 2 == 0) {
-                movies.add(
-                    Movie(R.drawable.movie)
-                )
-            } else {
-                movies.add(
-                    Movie(R.drawable.movie_4)
-                )
-            }
-        }
-
         binding.movieRvSimilar.apply {
             layoutManager = GridLayoutManager(this@MovieActivity, 3)
             adapter = MovieAdapter(movies, R.layout.movie_item_similar, object: OnClickForAdapter {

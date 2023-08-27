@@ -38,7 +38,7 @@ class MovieAdapter(
         private val textMovieName: ImageView = itemView.findViewById(R.id.movie_title)
 
         fun bind(itemMovie: Movie, position: Int) {
-            textMovieName.setImageResource(itemMovie.coverUrl)
+            //textMovieName.setImageResource(itemMovie.coverUrl)
             itemView.setOnClickListener {
                 onClickItem.onClick(position)
             }
