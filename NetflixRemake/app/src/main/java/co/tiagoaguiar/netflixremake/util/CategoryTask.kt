@@ -1,5 +1,8 @@
 package co.tiagoaguiar.netflixremake.util
 
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import android.util.Log
 import co.tiagoaguiar.netflixremake.model.Category
 import co.tiagoaguiar.netflixremake.model.Movie
@@ -14,17 +17,30 @@ import java.net.URL
 import java.util.concurrent.Executors
 import javax.net.ssl.HttpsURLConnection
 
-class CategoryTask {
+class CategoryTask(private val callBack: CallBack) {
+
+    private val handler = Handler(Looper.getMainLooper())
+    private val executor = Executors.newSingleThreadExecutor()
+
+    interface CallBack {
+        fun onResute(categories: List<Category>)
+        fun onFailure(message: String)
+        fun onPreExecute()
+    }
 
     fun execute(url: String) {
+        callBack.onPreExecute()
         //classe nativa do android para abrir uma nova thread pra ser executada em paralela
+        executor.execute {
 
-        try {
-            val executor = Executors.newSingleThreadExecutor()
-            executor.execute {
+            var urlConnection: HttpsURLConnection? = null
+            var stream: InputStream? = null
+            var buffer: BufferedInputStream? = null
+
+            try {
                 //Aqui começa a nova Thread
                 val requestUrl = URL(url) //abrir uma URL
-                val urlConnection = requestUrl.openConnection() as HttpsURLConnection
+                urlConnection = requestUrl.openConnection() as HttpsURLConnection
                 urlConnection.readTimeout = 2000 //tempo de leitura
                 urlConnection.connectTimeout = 2000 //tempo de conexão
 
@@ -36,24 +52,36 @@ class CategoryTask {
 
                 //Forma 1: simples e rápida {
 
-                val stream = urlConnection.inputStream //sequencia de bytes
+                stream = urlConnection.inputStream //sequencia de bytes
                 val jsonAsString = stream.bufferedReader().use { it.readText() } //transformação de bytes -> String (Recebe uma sequencia de binários como 0 e 1, e transforma em caracteres legíveis
 
                 val parseCategory = toCategories(jsonAsString)
                 Log.i("jsonAsString", parseCategory.toString())
+
+                handler.post {
+                    callBack.onResute(parseCategory)
+                }
                 //}
 
                 //Forma 2: bytes -> string
 //                val stream = urlConnection.inputStream //sequencia de bytes
-//                val buffer = BufferedInputStream(stream)
+//                buffer = BufferedInputStream(stream)
 //                val jsonAsString2 = toString(buffer)
 
                 //Neste momento o JSON já está preparado para ser parseado em um data class (model)
 //                Log.i("jsonAsString", jsonAsString2)
 
+            } catch (e: IOException) {
+                Log.i("jsonAsString", e.message.toString())
+                handler.post {
+                    callBack.onFailure(e.message.toString())
+                }
+            } finally {
+                //Importante finalizar as conexóes apos a execucao de codigo necessaria
+                urlConnection?.disconnect()
+                stream?.close()
+                buffer?.close()
             }
-        } catch (e: IOException) {
-            Log.i("jsonAsString", e.message.toString())
         }
     }
 

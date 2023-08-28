@@ -1,5 +1,6 @@
 package co.tiagoaguiar.netflixremake.adapters
 
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,8 @@ import co.tiagoaguiar.netflixremake.databinding.CategoryItemBinding
 import co.tiagoaguiar.netflixremake.databinding.MovieItemBinding
 import co.tiagoaguiar.netflixremake.interfaces.OnClickForAdapter
 import co.tiagoaguiar.netflixremake.model.Movie
+import co.tiagoaguiar.netflixremake.util.DownloadImageTask
+import com.squareup.picasso.Picasso
 
 class MovieAdapter(
     private val listMovie: List<Movie>,
@@ -38,7 +41,15 @@ class MovieAdapter(
         private val textMovieName: ImageView = itemView.findViewById(R.id.movie_title)
 
         fun bind(itemMovie: Movie, position: Int) {
-            //textMovieName.setImageResource(itemMovie.coverUrl)
+//            textMovieName.setImageResource(itemMovie.coverUrl)
+//            Picasso.get().load(itemMovie.coverUrl).into(textMovieName)
+
+            DownloadImageTask(object : DownloadImageTask.CallBack {
+                override fun onResute(bitmap: Bitmap) {
+                    textMovieName.setImageBitmap(bitmap)
+                }
+            }).execute(itemMovie.coverUrl)
+
             itemView.setOnClickListener {
                 onClickItem.onClick(position)
             }
