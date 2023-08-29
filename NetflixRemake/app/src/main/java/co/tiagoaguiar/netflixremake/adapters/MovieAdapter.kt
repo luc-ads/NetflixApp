@@ -18,7 +18,7 @@ import com.squareup.picasso.Picasso
 class MovieAdapter(
     private val listMovie: List<Movie>,
     @LayoutRes private val layoutId: Int,
-    private val onClickItem: OnClickForAdapter
+    private val onClickItem: ( (Int) -> Unit )? = null
 ): RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -51,7 +51,7 @@ class MovieAdapter(
             }).execute(itemMovie.coverUrl)
 
             itemView.setOnClickListener {
-                onClickItem.onClick(position)
+                onClickItem?.invoke(itemMovie.id)
             }
         }
     }

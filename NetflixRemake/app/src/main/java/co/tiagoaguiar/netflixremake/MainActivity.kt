@@ -30,11 +30,11 @@ class MainActivity : AppCompatActivity(), CategoryTask.CallBack {
         setContentView(binding.root)
 
         binding.rvMain.layoutManager = LinearLayoutManager(this)
-        adapter = CategoryAdapter(categories, object: OnClickForAdapter {
-            override fun onClick(itemPosition: Int) {
-                startActivity(Intent(this@MainActivity, MovieActivity::class.java))
-            }
-        })
+        adapter = CategoryAdapter(categories) {
+            val intent = Intent(this@MainActivity, MovieActivity::class.java)
+            intent.putExtra("idMovie", it)
+            startActivity(intent)
+        }
         binding.rvMain.adapter = adapter
 
         CategoryTask(this).execute("https://api.tiagoaguiar.co/netflixapp/home?apiKey=4a8c46ef-d5de-41e3-89ad-4e427c7fff3c")

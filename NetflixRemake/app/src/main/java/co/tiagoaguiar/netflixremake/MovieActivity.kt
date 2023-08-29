@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.drawable.LayerDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
@@ -16,7 +17,6 @@ class MovieActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMovieBinding
     private val movies = mutableListOf<Movie>()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,11 +40,22 @@ class MovieActivity : AppCompatActivity() {
 
         binding.movieRvSimilar.apply {
             layoutManager = GridLayoutManager(this@MovieActivity, 3)
-            adapter = MovieAdapter(movies, R.layout.movie_item_similar, object: OnClickForAdapter {
-                override fun onClick(itemPosition: Int) {
-                    startActivity(Intent(this@MovieActivity, MovieActivity::class.java))
-                }
-            })
+            adapter = MovieAdapter(movies, R.layout.movie_item_similar
+//                , object: OnClickForAdapter {
+//                override fun onClick(itemPosition: Int) {
+//                    startActivity(Intent(this@MovieActivity, MovieActivity::class.java))
+//                }
+//            }
+            )
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        if(item.itemId == android.R.id.home) {
+            finish()
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 }

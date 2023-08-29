@@ -12,7 +12,7 @@ import co.tiagoaguiar.netflixremake.model.Category
 
 class CategoryAdapter(
     private val listMovie: List<Category>,
-    private val onClickForAdapter: OnClickForAdapter
+    private val onClickListener: (Int) -> Unit
 ): RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -38,7 +38,7 @@ class CategoryAdapter(
         fun bind(itemCategory: Category, position: Int) {
             textCategoryName.text = itemCategory.name
             rvMovies.layoutManager = LinearLayoutManager(itemView.context, RecyclerView.HORIZONTAL, false)
-            rvMovies.adapter = MovieAdapter(itemCategory.movies, R.layout.movie_item, onClickForAdapter)
+            rvMovies.adapter = MovieAdapter(itemCategory.movies, R.layout.movie_item, onClickListener)
         }
     }
 }
