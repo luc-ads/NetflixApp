@@ -36,10 +36,12 @@ class MovieActivity : AppCompatActivity(), MovieTask.CallBack {
         idFilm = intent.getIntExtra("idMovie", 0)
 
         if (idFilm != null) {
-
-            //var url = "https://api.tiagoaguiar.co/netflixapp/movie/3?apiKey=4a8c46ef-d5de-41e3-89ad-4e427c7fff3c"
-            //var url = "https://api.tiagoaguiar.co/netflixapp/movie/2?apiKey=4a8c46ef-d5de-41e3-89ad-4e427c7fff3c"
             var url = "https://api.tiagoaguiar.co/netflixapp/movie/1?apiKey=4a8c46ef-d5de-41e3-89ad-4e427c7fff3c"
+            when (idFilm) {
+                1 -> url = "https://api.tiagoaguiar.co/netflixapp/movie/1?apiKey=4a8c46ef-d5de-41e3-89ad-4e427c7fff3c"
+                2 -> url = "https://api.tiagoaguiar.co/netflixapp/movie/2?apiKey=4a8c46ef-d5de-41e3-89ad-4e427c7fff3c"
+                3 -> url = "https://api.tiagoaguiar.co/netflixapp/movie/3?apiKey=4a8c46ef-d5de-41e3-89ad-4e427c7fff3c"
+            }
 
             MovieTask(this).execute(url)
         }
